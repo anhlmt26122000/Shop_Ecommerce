@@ -10,7 +10,6 @@ import org.mapstruct.MappingTarget;
 
 
 @Mapper(componentModel = "spring")
-@FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
 public interface PermissionMapper {
     Permission toPermission(PermissionRequest request);
     PermissionResponse toPermissionResponse(Permission permission);

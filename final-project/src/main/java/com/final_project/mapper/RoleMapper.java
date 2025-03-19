@@ -13,12 +13,10 @@ import org.mapstruct.MappingTarget;
 
 
 @Mapper(componentModel = "spring")
-@FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
 public interface RoleMapper {
     @Mapping(target = "permissions", ignore = true)
     Role toRole(RoleRequest request);
 
     RoleResponse toRoleResponse(Role role);
 
-    void updateRole(@MappingTarget Role role, RoleRequest request);
 }

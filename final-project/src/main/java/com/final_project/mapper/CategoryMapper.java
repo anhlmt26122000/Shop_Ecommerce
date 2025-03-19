@@ -9,7 +9,6 @@ import org.mapstruct.MappingTarget;
 
 
 @Mapper(componentModel = "spring")
-@FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
 public interface CategoryMapper {
     Category toCategory(CategoryRequest request);
 

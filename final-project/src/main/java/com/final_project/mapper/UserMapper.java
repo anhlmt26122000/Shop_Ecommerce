@@ -9,7 +9,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-@FieldDefaults(makeFinal = true,level = lombok.AccessLevel.PRIVATE)
 public interface UserMapper {
     User toUser(UserCreationRequest request);
     UserResponse toUserResponse(User user);
