@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +26,5 @@ public class UserUpdateRequest {
     @Size(min=1, message = "LAST_NAME_NULL")
     String lastName;
     String address;
+    List<String> roles;
 }

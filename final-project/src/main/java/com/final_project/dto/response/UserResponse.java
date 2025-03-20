@@ -1,6 +1,7 @@
 package com.final_project.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.final_project.entity.Role;
 import jakarta.persistence.ElementCollection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +24,5 @@ public class UserResponse {
     String firstName;
     String lastName;
     String address;
-    Set<String> roles;
+    Set<Role> roles;
 }

@@ -8,6 +8,7 @@ import com.final_project.enums.Role;
 import com.final_project.exception.AppException;
 import com.final_project.exception.ErrorCode;
 import com.final_project.mapper.UserMapper;
+import com.final_project.repository.RoleRepository;
 import com.final_project.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserService {
     UserRepository userRepository;
+    RoleRepository roleRepository;
     PasswordEncoder passwordEncoder;
     UserMapper userMapper;
 
@@ -41,12 +43,15 @@ public class UserService {
             throw new AppException(ErrorCode.USERNAME_EXISTED);
         }
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
+
 
         // Map request -> User
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.USER.name());
+        //user.setRoles(roles);
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
@@ -80,14 +85,13 @@ public class UserService {
         User user = userRepository.findById(userID)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-
-        // Encrypt password if provided
-        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(5);
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-        }
         // Map request -> User
         userMapper.updateUser(user, request);
+        // Encrypt password if provided
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        var roles= roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
         User updatedUser = userRepository.save(user);
         // Map User -> UserResponse
         return userMapper.toUserResponse(updatedUser);

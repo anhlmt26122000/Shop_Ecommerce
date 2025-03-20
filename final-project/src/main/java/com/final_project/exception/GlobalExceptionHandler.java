@@ -2,6 +2,7 @@ package com.final_project.exception;
 
 import com.final_project.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +28,22 @@ public class GlobalExceptionHandler {
         ApiResponse response = new ApiResponse();
         response.setCode(errorCode.getCode());
         response.setMessage(errorCode.getMessage());
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity
+                //error code defined in enum
+                .status(errorCode.getStatusCode())
+                .body(response);
+    }
+
+    //Access Denied exception
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<ApiResponse> handleAccessDeniedException(AccessDeniedException e){
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+        return ResponseEntity.status(errorCode.getStatusCode()).body(
+                ApiResponse.builder()
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build()
+                );
     }
 
     //VALIDATE
