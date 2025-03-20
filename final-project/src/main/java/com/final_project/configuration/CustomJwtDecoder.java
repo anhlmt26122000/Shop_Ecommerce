@@ -26,9 +26,12 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomJwtDecoder implements JwtDecoder {
     @Value("${jwt.signerKey}")
-    String signerKey;
-    AuthenticationService authenticationService;
-    NimbusJwtDecoder nimbusJwtDecoder = null;
+    private String signerKey;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+    private NimbusJwtDecoder nimbusJwtDecoder = null;
 
     @Override
     public Jwt decode(String token) throws JwtException {

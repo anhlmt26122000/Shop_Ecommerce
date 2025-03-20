@@ -3,23 +3,20 @@ package com.final_project.service;
 import com.final_project.dto.request.UserCreationRequest;
 import com.final_project.dto.request.UserUpdateRequest;
 import com.final_project.dto.response.UserResponse;
+import com.final_project.entity.Role;
 import com.final_project.entity.User;
-import com.final_project.enums.Role;
 import com.final_project.exception.AppException;
 import com.final_project.exception.ErrorCode;
 import com.final_project.mapper.UserMapper;
 import com.final_project.repository.RoleRepository;
 import com.final_project.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,20 +35,18 @@ public class UserService {
 
 
     public UserResponse createUser(UserCreationRequest request) {
-        // Encrypt password
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             throw new AppException(ErrorCode.USERNAME_EXISTED);
         }
-
-
 
         // Map request -> User
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-        //user.setRoles(roles);
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById("USER").ifPresent(roles ::add);
+        user.setRoles(roles);
+
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
