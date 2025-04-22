@@ -9,8 +9,11 @@ import com.final_project.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,5 +55,9 @@ public class CategoryService {
                 new AppException(ErrorCode.CATEGORY_NOT_EXISTED));
         categoryRepository.delete(category);
 
+    }
+    @Transactional(readOnly = true) // Đánh dấu là transaction chỉ đọc để tối ưu hiệu suất
+    public Page<Category> getCategoriesWithPagination(PageRequest pageRequest) {
+        return categoryRepository.findAll(pageRequest);
     }
 }

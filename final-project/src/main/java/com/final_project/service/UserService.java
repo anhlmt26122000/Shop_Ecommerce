@@ -13,6 +13,7 @@ import com.final_project.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -84,8 +85,9 @@ public class UserService {
         userMapper.updateUser(user, request);
         // Encrypt password if provided
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        var roles= roleRepository.findAllById(request.getRoles());
-        user.setRoles(new HashSet<>(roles));
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById("USER").ifPresent(roles ::add);
+        user.setRoles(roles);
 
         User updatedUser = userRepository.save(user);
         // Map User -> UserResponse
@@ -97,7 +99,8 @@ public class UserService {
         userRepository.deleteById(userID);
     }
 
-    public Page<User> getUsersWithPagination(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<UserResponse> getUsersWithPagination(PageRequest pageRequest) {
+        Page<User> userPage = userRepository.findAll(pageRequest);
+        return userPage.map(userMapper::toUserResponse);
     }
 }

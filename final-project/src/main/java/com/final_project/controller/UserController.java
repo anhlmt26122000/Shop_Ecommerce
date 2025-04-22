@@ -9,6 +9,7 @@ import com.final_project.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -20,28 +21,38 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    UserResponse createUser(@RequestBody @Valid UserCreationRequest request){
-        return userService.createUser(request);
+    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request){
+        ApiResponse<UserResponse> response = new ApiResponse<>();
+        response.setResult(userService.createUser(request));
+        return response;
     }
 
     @GetMapping
-    public List<UserResponse> getUsers() {
-        return userService.getUsers();
+    public ApiResponse<List<UserResponse>> getUsers() {
+        ApiResponse<List<UserResponse>> response = new ApiResponse<>();
+        response.setResult(userService.getUsers());
+        return response;
     }
 
     @GetMapping("/{username}")
-    UserResponse getUser(@PathVariable("username") String username){
-        return userService.getUser(username);
+    ApiResponse<UserResponse> getUser(@PathVariable("username") String username){
+        ApiResponse<UserResponse> response = new ApiResponse<>();
+        response.setResult(userService.getUser(username));
+        return response;
     }
 
     @GetMapping("/myInfo")
-    UserResponse getMyInfo(){
-        return userService.getMyInfo();
+    ApiResponse<UserResponse> getMyInfo(){
+        ApiResponse<UserResponse> response = new ApiResponse<>();
+        response.setResult(userService.getMyInfo());
+        return response;
     }
 
     @PutMapping("/{userID}")
-    UserResponse updateUser(@PathVariable("userID") String userID, @RequestBody UserUpdateRequest request){
-        return userService.updateUser(userID, request);
+    ApiResponse<UserResponse> updateUser(@PathVariable("userID") String userID, @RequestBody UserUpdateRequest request){
+        ApiResponse<UserResponse> response = new ApiResponse<>();
+        response.setResult(userService.updateUser(userID, request));
+        return response;
     }
 
     @DeleteMapping("/{userID}")
@@ -53,8 +64,11 @@ public class UserController {
     }
 
     @GetMapping("/page")
-    public ApiResponse<Page<User>> getUsersWithPagination(Pageable pageable) {
-        Page<User> userPage = userService.getUsersWithPagination(pageable);
+    public ApiResponse<Page<UserResponse>> getUsersWithPagination(@RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(defaultValue = "5") int size) {
+        page = page-1;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<UserResponse> userPage = userService.getUsersWithPagination(pageRequest);
         return new ApiResponse<>(200, "User list retrieved successfully", userPage);
     }
 }

@@ -6,6 +6,9 @@ import com.final_project.entity.Category;
 import com.final_project.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,5 +51,18 @@ public class CategoryController {
     ApiResponse<String> deleteCategory(@PathVariable("categoryID") String categoryID){
         categoryService.deleteCategory(categoryID);
         return new ApiResponse<>(200, "Category deleted", null);
+    }
+
+    @GetMapping("/page")
+    ApiResponse<Page<Category>> getCategoriesWithPagination(@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "5") int size) {
+        {
+
+            // Chuyển giá trị page từ frontend (frontend bắt đầu từ 1, backend bắt đầu từ 0)
+            page = page - 1;  // Điều chỉnh page khi frontend gửi page = 1 -> backend sẽ nhận page = 0
+            PageRequest pageRequest = PageRequest.of(page, size);
+            Page<Category> categories = categoryService.getCategoriesWithPagination(pageRequest);
+            return new ApiResponse<>(200, "Categories retrieved successfully", categories);
+        }
     }
 }

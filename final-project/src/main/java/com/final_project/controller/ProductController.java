@@ -2,10 +2,13 @@ package com.final_project.controller;
 
 import com.final_project.dto.request.ProductRequest;
 import com.final_project.dto.response.ApiResponse;
+import com.final_project.dto.response.ProductResponse;
 import com.final_project.entity.Product;
 import com.final_project.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +20,17 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    ApiResponse<Product> createProduct(@RequestBody @Valid ProductRequest request){
-        ApiResponse<Product> response = new ApiResponse<>();
-        response.setResult(productService.createProduct(request));
-        return response;
+    ApiResponse<ProductResponse> createProduct(@RequestBody @Valid ProductRequest request){
+        ApiResponse<ProductResponse> productResponse = new ApiResponse<>();
+        productResponse.setResult(productService.createProduct(request));
+        return productResponse;
     }
 
     @GetMapping
-    ApiResponse<List<Product>> getAllProduct(){
-        ApiResponse<List<Product>> response = new ApiResponse<>();
-        response.setResult(productService.getAllProduct());
-        return response;
+    ApiResponse<List<ProductResponse>> getAllProduct(){
+        ApiResponse<List<ProductResponse>> productResponse = new ApiResponse<>();
+        productResponse.setResult(productService.getAllProduct());
+        return productResponse;
     }
 
     @GetMapping("/{id}")
@@ -38,8 +41,8 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    ApiResponse<Product> updateProduct(@PathVariable String id, @RequestBody @Valid ProductRequest request){
-        ApiResponse<Product> response = new ApiResponse<>();
+    ApiResponse<ProductResponse> updateProduct(@PathVariable String id, @RequestBody @Valid ProductRequest request){
+        ApiResponse<ProductResponse> response = new ApiResponse<>();
         response.setResult(productService.updateProduct(id, request));
         return response;
     }
@@ -50,6 +53,16 @@ public class ProductController {
         productService.deleteProduct(id);
         response.setResult("Delete product successfully");
         return response;
+    }
+
+    @GetMapping("page")
+    ApiResponse<Page<ProductResponse>> getProductsWithPagination(@RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "5") int size) {
+        // Chuyển giá trị page từ frontend (frontend bắt đầu từ 1, backend bắt đầu từ 0)
+        page = page - 1;  // Điều chỉnh page khi frontend gửi page = 1 -> backend sẽ nhận page = 0
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<ProductResponse> productResponse = productService.getProductsWithPagination(pageRequest);
+        return new ApiResponse<>(200, "Get product successfully", productResponse);
     }
 
 }

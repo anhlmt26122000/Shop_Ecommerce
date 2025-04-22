@@ -22,7 +22,7 @@ public class Product {
     String image;
     double price;
     int stock;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     Category category;
 }
