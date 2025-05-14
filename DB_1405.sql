@@ -91,7 +91,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Mechanical Watch Description','','Mechanical Watch'),(2,'Gym Accessories description','banner_img_03.jpg','Gym Accessories'),(3,'Popular Accessories Description','SSDenim.jpg','Popular Accessories'),(4,'Smart Watch Description','feature_prod_02.jpg','Smart Watch'),(5,'Gym Fashion Description','','Gym Fashion'),(6,'Popular Fashion Description','SSDenim.jpg','Popular Fashion');
+INSERT INTO `category` VALUES (1,'Mechanical Watch Description','hublot_2.png','Mechanical Watch'),(2,'Gym Accessories description','category_img_02.jpg','Gym Accessories'),(3,'Popular Accessories Description','SSDenim.jpg','Popular Accessories'),(4,'Smart Watch Description','feature_prod_02.jpg','Smart Watch'),(5,'Gym Fashion Description','category_img_02.jpg','Gym Fashion'),(6,'Popular Fashion Description','SSDenim.jpg','Popular Fashion');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,6 +115,7 @@ CREATE TABLE `invalidated_token` (
 
 LOCK TABLES `invalidated_token` WRITE;
 /*!40000 ALTER TABLE `invalidated_token` DISABLE KEYS */;
+INSERT INTO `invalidated_token` VALUES ('345797a9-0f75-4ba1-9c84-266b4554694e','2025-05-10 13:16:46.000000'),('55d952f8-247f-418b-86b3-2c085b3ee2c1','2025-05-08 15:04:03.000000'),('90cb945e-1e71-45d2-a24f-bde7ab885068','2025-05-08 14:48:48.000000'),('e12ba51b-9b3f-4d12-8cec-21cd24d48114','2025-05-08 13:41:20.000000');
 /*!40000 ALTER TABLE `invalidated_token` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +170,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'1_000001','Hublot ','hublot_1.png','HUBLOT SPIRIT OF BIG BANG MECA-10 KING GOLD',5000,15,1),(2,'1_000002','HUblot','hublot_2.png','HUBLOT basic ',3000,30,1),(3,'1_000003','Carnival','carnival_1.png','Carnival 111',500,100,1),(5,'2_000001','GGGG','glove_1.png','GGGG',5,100,2),(6,'2_000002','GGGG','glove_2.png','GGG2',9,100,2),(7,'2_000003','Bottle desscription','banner_img_03.jpg','Bottle',15,50,2),(8,'2_000004','Bottle desscription','banner_img_03.jpg','Bottle',15,50,2);
+INSERT INTO `products` VALUES (1,'1_000001','Hublot ','hublot_1.png','HUBLOT SPIRIT OF BIG BANG MECA-10 KING GOLD',5000,15,1),(2,'1_000002','HUblot','hublot_2.png','HUBLOT basic ',3000,30,1),(3,'1_000003','Carnival','carnival_2.jpg','Carnival 111',500,100,1),(5,'2_000001','GGGG','glove_1.png','GGGG',5,100,2),(6,'2_000002','GGGG','glove_2.png','GGG2',9,100,2),(7,'2_000003','Bottle desscription','banner_img_03.jpg','Bottle',15,50,2),(8,'2_000004','Bottle desscription','banner_img_03.jpg','Bottle',15,50,2);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,7 +249,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('37745ba9-da54-48e3-bebf-24d24c633927',NULL,NULL,NULL,NULL,'$2a$05$M297442gp8wHLOn2SON/2uzXwLN0ezQim2aiG3q8/y8d38ZLjrpW.','admin');
+INSERT INTO `user` VALUES ('01a882a3-9a23-4c4a-a802-b89c60eed4ce','Ha Noi','anhlmt26122000@gmail.com','Le Minh','Thien Anh','$2a$05$Z4lHSP6cvdy3huOYolmzk.Mh3.sGRy0927WWZ/vdTqp0whGe3MGUu','leminhthienanh'),('37745ba9-da54-48e3-bebf-24d24c633927',NULL,NULL,NULL,NULL,'$2a$05$M297442gp8wHLOn2SON/2uzXwLN0ezQim2aiG3q8/y8d38ZLjrpW.','admin'),('9e494cff-2c52-4e1f-9edf-71d2c41a9797','Tesst Address 3','anhlmt26122000+3@gmail.com','Lê','Anh','$2a$05$UteLxydkYB8oENdw7Ct5yOUTyiJ4w2kHC7.Pv13oRat2.ADCv7iBG','leminhthienanh3'),('b69a7705-f3f5-4925-9b66-a6e827d0e577','444444444444','anhlmt26122000+4@gmail.com','Lê','Anh','$2a$05$BM0QXtRVYdVwehJqcGXspOzTQp0m8mVZUmPs6MkLN1oHf3PaytQOi','leminhthienanh4'),('c9a33b7c-d2dc-4fc8-9d48-fe5f091b5dd2','Hà Nội','anhlmt26122000+2@gmail.com','Lê','Anh','$2a$05$m7A9YlwhLHik9r8Hep.M3.c/nQ2bOtf5xO9w4W9v623rDUumM8hEO','leminhthienanh2'),('d42f90d7-11c1-4b7c-9a21-489801ab5315','Hà Nội','anhlmt26122000+1@gmail.com','Lê','Anh','$2a$05$5o8DwTA7QrCkgsf7D1oTMurtiy.bLuHE72z1lZGhSHJ/w4DcA1kpa','leminhthienanh1');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,4 +289,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-23 17:24:19
+-- Dump completed on 2025-05-14 15:27:33
